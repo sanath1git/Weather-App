@@ -27,10 +27,12 @@
             <button class="btn btn-light">FIND</button>
         </form>
         {% if data %}
-        {{data.main}}: {{ data.description }}<br>
+<!--         {{data.main}}: {{ data.description }}<br>
 <!--         <img src="https://openweathermap.org/img/wn/{{data.icon}}@2x.png" alt="Icon"> -->
-        <i style='font-size:24px' class='fas'>&#xf6c4;</i>
-        {{data.temperature}} C
+<!--         <i style='font-size:24px' class='fas'>&#xf6c4;</i> -->
+        {{ data.main }}: {{ data.description }}<br>
+          {{ data.temperature }} °C
+<!--         {{data.temperature}} C -->
         {% endif %}
     </div>
     
