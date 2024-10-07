@@ -11,6 +11,13 @@
         <h1 class="mt-5">Weather App</h1>
 
         <form action="/" method="post">
+            <input type="text" id="cityName" name="cityName" placeholder="city" class="form-control" required>
+            <input type="text" id="stateName" name="stateName" placeholder="state" class="form-control" required>
+            <input type="text" id="countryName" name="countryName" placeholder="country" class="form-control" required>
+            <button class="btn btn-light">FIND</button>
+        </form>
+
+<!--         <form action="/" method="post">
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
@@ -25,7 +32,7 @@
                 </div>
             </div><br>
             <button class="btn btn-light">FIND</button>
-        </form>
+        </form> -->
         {% if data %}
 <!--         {{data.main}}: {{ data.description }}<br>
 <!--         <img src="https://openweathermap.org/img/wn/{{data.icon}}@2x.png" alt="Icon"> -->
