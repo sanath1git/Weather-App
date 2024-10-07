@@ -12,26 +12,47 @@ class WeatherData:
     description:str
     icon:str
     temperature:int
+    
+def get_lan_lon(city_name, state_code, country_code, API_key):
+    resp = requests.get(f'http://api.openweathermap.org/geo/1.0/direct?q={city_name},{state_code},{country_code}&appid={API_key}').json()
+    if not resp:  # Handle invalid response
+        return None, None
+    data = resp[0]
+    return data.get('lat'), data.get('lon')
 
-def get_lan_lon(city_name,state_code,country_code,API_key):
-    resp =requests.get(
-        f'http://api.openweathermap.org/geo/1.0/direct?q={city_name},{state_code},{country_code}&appid={API_key}'
-).json()
-    data=resp[0]
-    lat,lon=data.get('lat'),data.get('lon')
-    return lat,lon
+# def get_lan_lon(city_name,state_code,country_code,API_key):
+#     resp =requests.get(
+#         f'http://api.openweathermap.org/geo/1.0/direct?q={city_name},{state_code},{country_code}&appid={API_key}'
+# ).json()
+#     data=resp[0]
+#     lat,lon=data.get('lat'),data.get('lon')
+#     return lat,lon
 
     
-def get_current_weather(lat,lon,API_key):
-    resp=requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}&units=metric').json()   
-    # print(resp)
-    data=WeatherData(
-        main=resp.get('weather')[0].get('main'),
-        description=resp.get('weather')[0].get('description'),
-        icon=resp.get('weather')[0].get('icon'),
-        temperature=int(resp.get('main').get('temp'))
+# def get_current_weather(lat,lon,API_key):
+#     resp=requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}&units=metric').json()   
+#     # print(resp)
+#     data=WeatherData(
+#         main=resp.get('weather')[0].get('main'),
+#         description=resp.get('weather')[0].get('description'),
+#         icon=resp.get('weather')[0].get('icon'),
+#         temperature=int(resp.get('main').get('temp'))
+#     )
+#     return data
+def get_current_weather(lat, lon, API_key):
+    if lat is None or lon is None:
+        return None  # No valid location
+    
+    resp = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}&units=metric').json()
+    if not resp or 'main' not in resp:  # Handle invalid response
+        return None
+    
+    return WeatherData(
+        main=resp['weather'][0]['main'],
+        description=resp['weather'][0]['description'],
+        icon=resp['weather'][0]['icon'],
+        temperature=int(resp['main']['temp'])
     )
-    return data
 
 def main(city_name,state_name,country_name):
     lat,lon=get_lan_lon(city_name, state_name, country_name,api_key)
